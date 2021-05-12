@@ -82,6 +82,7 @@ abstract class AbstractProfile
     public function buildConfigArray(): array
     {
         return [
+            'Attr.AllowedFrameTargets' => ['_blank'],
             'HTML.Allowed' => $this->allowed,
             'HTML.AllowedElements' => $this->allowedTags,
             'HTML.AllowedAttributes' => $this->allowedAttributes,

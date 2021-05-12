@@ -17,7 +17,8 @@ class SimpleEditorProfile extends MiniEditorProfile
         "href",
         "width",
         "height",
-        "target"
+        "target",
+        "rel"
     ];
 
     protected function defaultConfig(): array
