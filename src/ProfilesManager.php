@@ -3,7 +3,6 @@
 namespace ByTIC\Purifier;
 
 use ByTIC\Purifier\Profiles\AbstractProfile;
-use ByTIC\Purifier\Profiles\ConfigFactory;
 use ByTIC\Purifier\Profiles\EditorProfile;
 use ByTIC\Purifier\Profiles\FullEditorProfile;
 use ByTIC\Purifier\Profiles\MiniEditorProfile;
@@ -17,6 +16,12 @@ use Nip\Config\Utils\PackageHasConfigTrait;
 class ProfilesManager
 {
     use PackageHasConfigTrait;
+
+    public const DEFAULT_PROFILES = [
+        FullEditorProfile::NAME,
+        SimpleEditorProfile::NAME,
+        MiniEditorProfile::NAME,
+    ];
 
     protected $profiles = [];
 
@@ -43,6 +48,9 @@ class ProfilesManager
     public function has(string $name): bool
     {
         $name = $this->parseName($name);
+        if (in_array($name, static::DEFAULT_PROFILES)) {
+            return true;
+        }
         return isset($this->profiles[$name]);
     }
 
@@ -84,12 +92,12 @@ class ProfilesManager
     protected static function class($name): string
     {
         switch ($name) {
-            case 'full' :
+            case FullEditorProfile::NAME :
                 return FullEditorProfile::class;
-            case 'mini' :
-                return MiniEditorProfile::class;
-            case 'simple' :
+            case SimpleEditorProfile::NAME:
                 return SimpleEditorProfile::class;
+            case MiniEditorProfile::NAME :
+                return MiniEditorProfile::class;
         }
         return EditorProfile::class;
     }

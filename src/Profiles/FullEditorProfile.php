@@ -8,6 +8,8 @@ namespace ByTIC\Purifier\Profiles;
  */
 class FullEditorProfile extends SimpleEditorProfile
 {
+    public const NAME = 'full';
+
     public const ALLOWED_TAGS = [
         "a",
         "b",

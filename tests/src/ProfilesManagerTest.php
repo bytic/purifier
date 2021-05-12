@@ -3,8 +3,9 @@
 namespace ByTIC\Purifier\Tests;
 
 use ByTIC\Purifier\Profiles\FullEditorProfile;
+use ByTIC\Purifier\Profiles\MiniEditorProfile;
+use ByTIC\Purifier\Profiles\SimpleEditorProfile;
 use ByTIC\Purifier\ProfilesManager;
-use HTMLPurifier;
 
 /**
  * Class FilterManagerTest
@@ -28,5 +29,13 @@ class ProfilesManagerTest extends AbstractTest
         $manager->get('full');
         $manager->get('full');
         $manager->get('full');
+    }
+
+    public function test_has_default_profiles()
+    {
+        $manager = new ProfilesManager();
+        self::assertTrue($manager->has(FullEditorProfile::NAME));
+        self::assertTrue($manager->has(SimpleEditorProfile::NAME));
+        self::assertTrue($manager->has(MiniEditorProfile::NAME));
     }
 }
