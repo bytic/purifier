@@ -20,8 +20,10 @@ class SimpleEditorProfile extends MiniEditorProfile
         "target"
     ];
 
-    public $safeEmbed = true;
-    public $safeObject = true;
-    public $safeIframe = true;
-    public $safeIframeRegexp = '%^https://(www.youtube.com/embed/|player.vimeo.com/video/)%';
+    protected function defaultConfig(): array
+    {
+        $config = parent::defaultConfig();
+        $config['allowEmbed'] = true;
+        return $config;
+    }
 }

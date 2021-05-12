@@ -3,6 +3,7 @@
 namespace ByTIC\Purifier\Profiles;
 
 use ByTIC\Purifier\Config\ConfigFactory;
+use ByTIC\Purifier\Filters\EmbeddedFilter;
 use HTMLPurifier_Config;
 
 /**
@@ -20,6 +21,8 @@ abstract class AbstractProfile
     public $safeIframe = false;
     public $safeIframeRegexp = null;
 
+    public $filterCustom = [];
+
     /**
      * @var HTMLPurifier_Config
      */
@@ -30,12 +33,7 @@ abstract class AbstractProfile
      */
     public function __construct(array $config = [])
     {
-        $config['allowedTags'] = $config['allowedTags'] ??
-            (defined(static::class . '::ALLOWED_TAGS') ? static::ALLOWED_TAGS : []);
-
-        $config['allowedAttributes'] = $config['allowedAttributes'] ??
-            (defined(static::class . '::ALLOWED_ATTRIBUTES') ? static::ALLOWED_ATTRIBUTES : []);
-
+        $config = array_merge($this->defaultConfig(), $config);
         $this->fill($config);
     }
 
@@ -45,8 +43,28 @@ abstract class AbstractProfile
     public function fill(array $config = [])
     {
         foreach ($config as $name => $value) {
-            $this->{$name} = $value;
+            $method = 'set' . ucfirst($name);
+            if (method_exists($this, $method)) {
+                $this->$method($value);
+            } else {
+                $this->{$name} = $value;
+            }
         }
+    }
+
+    /**
+     * @param false $allow
+     */
+    public function setAllowEmbed(bool $allow = false)
+    {
+        if ($allow === false) {
+            return;
+        }
+        $this->safeEmbed = true;
+        $this->safeObject = true;
+        $this->safeIframe = true;
+        $this->safeIframeRegexp = '%^https://(www.youtube.com/embed/|player.vimeo.com/video/)%';
+        array_push($this->filterCustom, new EmbeddedFilter());
     }
 
     /**
@@ -70,7 +88,8 @@ abstract class AbstractProfile
             'HTML.SafeEmbed' => $this->safeEmbed,
             'HTML.SafeObject' => $this->safeObject,
             'HTML.SafeIframe' => $this->safeIframe,
-            'URI.SafeIframeRegexp' => $this->safeIframeRegexp
+            'URI.SafeIframeRegexp' => $this->safeIframeRegexp,
+            'Filter.Custom' => $this->filterCustom
         ];
     }
 
@@ -81,5 +100,20 @@ abstract class AbstractProfile
     protected function buildConfig(HTMLPurifier_Config $config = null): HTMLPurifier_Config
     {
         return ConfigFactory::fromProfile($this, $config);
+    }
+
+    /**
+     * @return array
+     */
+    protected function defaultConfig(): array
+    {
+        $config = [];
+
+        $config['allowedTags'] = defined(static::class . '::ALLOWED_TAGS')
+            ? static::ALLOWED_TAGS : [];
+
+        $config['allowedAttributes'] = defined(static::class . '::ALLOWED_ATTRIBUTES')
+            ? static::ALLOWED_ATTRIBUTES : [];
+        return $config;
     }
 }
