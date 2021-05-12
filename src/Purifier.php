@@ -96,7 +96,7 @@ class Purifier
     protected function defaultConfig(): HTMLPurifier_Config
     {
         $data = $this->getPackageConfig('defaults', []);
-
+        $data = is_object($data) ? $data->toArray() : $data;
         return ConfigFactory::fromArray($data);
     }
 

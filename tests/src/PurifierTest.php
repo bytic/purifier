@@ -2,7 +2,9 @@
 
 namespace ByTIC\Purifier\Tests;
 
+use ByTIC\Purifier\Config\Config;
 use ByTIC\Purifier\Purifier;
+use Nip\Config\Factory;
 
 /**
  * Class PurifierTest
@@ -10,6 +12,19 @@ use ByTIC\Purifier\Purifier;
  */
 class PurifierTest extends AbstractTest
 {
+    public function test_config_has_defaults()
+    {
+        Factory::fromFiles(
+            \config(),
+            ['purifier' => TEST_FIXTURE_PATH . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'purifier.php']
+        );
+        $purifier = new Purifier();
+
+        self::assertSame(
+            TEST_FIXTURE_PATH . DIRECTORY_SEPARATOR . 'cache',
+            $purifier->getPurifier()->config->get(Config::CACHE_PATH)
+        );
+    }
 
     public function test_clean()
     {

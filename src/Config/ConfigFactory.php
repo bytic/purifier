@@ -22,7 +22,7 @@ class ConfigFactory
     }
 
     /**
-     * @param $data
+     * @param array $data
      * @param HTMLPurifier_Config|null $config
      * @return HTMLPurifier_Config
      */
@@ -36,5 +36,4 @@ class ConfigFactory
         }
         return $config;
     }
-
 }
