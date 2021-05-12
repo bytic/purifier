@@ -10,8 +10,15 @@ class SimpleEditorProfile extends MiniEditorProfile
 {
     public const NAME = 'simple';
 
-    public const  ALLOWED_TAGS = ["a", "b", "br", "p", "img", "small", "span", "strong", "ul", "li"];
-    public const  ALLOWED_ATTRIBUTES = ["align", "src", "href", "target"];
+    public const  ALLOWED_TAGS = ["a", "b", "br", "p", "img", "iframe", "small", "span", "strong", "ul", "ol", "li"];
+    public const  ALLOWED_ATTRIBUTES = [
+        "align",
+        "src",
+        "href",
+        "width",
+        "height",
+        "target"
+    ];
 
     public $safeEmbed = true;
     public $safeObject = true;

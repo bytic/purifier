@@ -11,5 +11,5 @@ class MiniEditorProfile extends AbstractProfile
     public const NAME = 'mini';
 
     public const ALLOWED_TAGS = ["a", "b", "br", "p", "span", "strong"];
-    public const ALLOWED_ATTRIBUTES = ["align", "src", "href", "target"];
+    public const ALLOWED_ATTRIBUTES = ["align", "href", "target"];
 }
