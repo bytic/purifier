@@ -1,0 +1,37 @@
+{
+  "name": "bytic/purifier",
+  "type": "library",
+  "description": "An HTML Purifier / Sanitizer for ByTIC\n\n",
+  "homepage": "https://github.com/bytic/purifier",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Gabriel Solomon",
+      "email": "hello@gabrielsolomon.ro"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "ByTIC\\Purifier\\": "src"
+    },
+    "files": [
+      "src/functions/helpers.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ByTIC\\Purifier\\Tests\\": "tests/src",
+      "ByTIC\\Purifier\\Tests\\Fixtures\\": "tests/fixtures"
+    }
+  },
+  "require": {
+    "php": "^7.2|^8.0",
+    "ezyang/htmlpurifier": "^4.0",
+    "bytic/container": "^1.0|^2.0",
+    "bytic/config": "^1.0"
+  },
+  "require-dev": {
+    "bytic/phpqatools": "^1.0",
+    "mockery/mockery": "^1.2"
+  }
+}
