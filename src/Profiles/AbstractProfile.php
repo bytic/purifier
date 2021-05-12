@@ -14,6 +14,12 @@ abstract class AbstractProfile
     public $allowedTags = [];
     public $allowedAttributes = [];
 
+    public $allowed = '';
+    public $safeEmbed = false;
+    public $safeObject = false;
+    public $safeIframe = false;
+    public $safeIframeRegexp = null;
+
     /**
      * @var HTMLPurifier_Config
      */
@@ -29,6 +35,8 @@ abstract class AbstractProfile
 
         $config['allowedAttributes'] = $config['allowedAttributes'] ??
             (defined(static::class . '::ALLOWED_ATTRIBUTES') ? static::ALLOWED_ATTRIBUTES : []);
+
+        $this->fill($config);
     }
 
     /**
@@ -56,8 +64,13 @@ abstract class AbstractProfile
     public function buildConfigArray(): array
     {
         return [
+            'HTML.Allowed' => $this->allowed,
             'HTML.AllowedElements' => $this->allowedTags,
-            'HTML.AllowedAttributes' => $this->allowedAttributes
+            'HTML.AllowedAttributes' => $this->allowedAttributes,
+            'HTML.SafeEmbed' => $this->safeEmbed,
+            'HTML.SafeObject' => $this->safeObject,
+            'HTML.SafeIframe' => $this->safeIframe,
+            'URI.SafeIframeRegexp' => $this->safeIframeRegexp
         ];
     }
 

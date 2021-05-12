@@ -5,32 +5,21 @@ namespace ByTIC\Purifier\Utility;
 /**
  * Class Purifier
  * @package ByTIC\Purifier\Utility
- *
- * @method static clean($dirty, $config = null)
  */
 class Purifier
 {
-
     /**
-     * Magic Method for calling methods on the default container.
-     *
-     * <code>
-     *     // Call the "styles" method on the default container
-     *     echo Orchestra\Asset::styles();
-     *
-     *     // Call the "add" method on the default container
-     *     Orchestra\Asset::add('jquery', 'js/jquery.js');
-     * </code>
-     *
-     * @return mixed
+     * @param $dirty
+     * @param null $config
+     * @return string|string[]
      */
-    public function __call(string $method, array $parameters)
+    public static function clean($dirty, $config = null)
     {
-        return call_user_func_array([static::instance()->entry(), $method], $parameters);
+        return static::instance()->clean($dirty, $config);
     }
 
     /**
-     * @return mixed|static
+     * @return \ByTIC\Purifier\Purifier
      */
     public static function instance()
     {
@@ -38,8 +27,8 @@ class Purifier
         if (!($instance instanceof self)) {
             $container = \Nip\Container\Utility\Container::get();
 
-            /** @var \ByTIC\Purifier\ProfilesManager $manager */
-            $instance = $container->get(\ByTIC\Purifier\ProfilesManager::class);
+            /** @var \ByTIC\Purifier\Purifier $manager */
+            $instance = $container->get(\ByTIC\Purifier\Purifier::class);
         }
         return $instance;
     }
